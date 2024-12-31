@@ -1,0 +1,11 @@
+Index page with login button and all the products and search feature 
+
+Model for products which contain Image Description price quantity(only for admin)
+
+Direct Add to cart Button When logged in 
+
+when logged out only products and its description page 
+
+cart button to view cart 
+
+add cart products to cookie 

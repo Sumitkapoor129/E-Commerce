@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Page</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    /* Profile Section Styles */
+    .profile-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 30px 0;
+    }
+
+    .profile-picture {
+      width: 150px;
+      height: 150px;
+      border-radius: 55%;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .profile-picture img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-info h2 {
+      margin: 110 0 0px 10;
+    }
+
+    .profile-info p {
+      margin: 5px 0;
+    }
+
+    /* Order Section Styles */
+    .order-container {
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+
+    .order-container h2 {
+      margin-top: 0;
+    }
+
+    .order-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .order-list li {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .order-details {
+      margin-bottom: 10px;
+    }
+
+    .order-status {
+      font-size: 0.8em;
+      color: #888;
+    }
+
+    .track-order-button {
+      background-color: #0039b6;
+      color: #ffffff;
+      border: none;
+      padding: 8px 16px;
+      margin-top: 20px;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.9em;
+    }
+
+    .order-products {
+      display: grid;
+      grid-template-columns: repeat(5, 3fr);
+      grid-gap: 20px;
+      width: 100%;
+    }
+
+    .order-product {
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .order-product img {
+      width: 50%;
+      max-height: 100px;
+      object-fit:contain;
+      margin-bottom: 10px;
+    }
+
+    .order-product h3 {
+      margin: 0 0 10px 0;
+    }
+
+    .order-product p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <header>{% include 'customers/navbar.html' %}
+  </header>
+
+  <main>
+    <div class="profile-container">
+      <div class="profile-picture">
+        <img src="{{request.user.profile_pic.url}}" alt="Profile Picture">
+      </div>
+      <div class="profile-info">
+        <h2>{{request.user.username | upper}}<p>{{request.user.email }}</p>
+        <p>Member since: {{ request.user.date_joined|date:"F j, Y" }}</p>
+      </div></h2>
+    </div>
+
+    <div class="order-container">
+      <h2>My Orders</h2>
+
+          <div class="order-details">
+           
+          </div>
+          <div class="order-products">
+          {%for order in orders %}
+      
+          
+            <div class="order-product">
+              <img src="{{order.product.image.url}}" alt="Product 4">
+              <h3>Product 4</h3>
+              <p>Description of Product 4</p><br><a href="#" class="track-order-button">Track Order</a>
+            </div>
+            
+          
+                 {%endfor%}
+                 <div class="order-product">
+                     
+                       {%if not orders  %}
+                        <h3>You have not Ordered anything Yet</h3>
+                      {%endif%}
+                  </div>
+        </div>
+    </div>
+  </main>
+</body>
+</html>
