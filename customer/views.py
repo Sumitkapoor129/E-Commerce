@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.contrib import messages
@@ -98,3 +98,7 @@ def cart(request):
     for order in orders:
         total += order.product.price
     return render(request,"customers/cart.html",{"orders":orders,"total":total,"tax":total/10})    
+
+def Logout(request):
+    logout(request)
+    return redirect("customer:Home")
