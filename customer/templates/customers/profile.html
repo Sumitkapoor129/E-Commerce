@@ -114,7 +114,7 @@
   </style>
 </head>
 <body>
-  <header>{% include 'customers/navbar.html' %}
+  <header>{% include 'customers/navbar.html' with ON=no %}
   </header>
 
   <main>
@@ -125,6 +125,7 @@
       <div class="profile-info">
         <h2>{{request.user.username | upper}}<p>{{request.user.email }}</p>
         <p>Member since: {{ request.user.date_joined|date:"F j, Y" }}</p>
+        <div style=" margin-top: 2%; color: rgb(0, 54, 202); font-size: 19px;"><a href="{%url 'customer:logout' %}">Logout</a></div>
       </div></h2>
     </div>
 

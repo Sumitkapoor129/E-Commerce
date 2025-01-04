@@ -9,7 +9,9 @@ def home(request):
     products=Product.objects.all()
     context={"product":products}
     if request.user.is_authenticated:
-        
+        orders=Cart.objects.filter(user_id = request.user.id)
+        order_no=len(orders)
+        context["no"]=order_no
         return render(request,'customers/loginhome.html',context)
     else:
         return render(request,'customers/home.html',context)
@@ -57,15 +59,18 @@ def register(request):
         user=Customer.objects.create(username=username,email=email,password=password,profile_pic=profile)
         login(request,user)
         return redirect('customer:Home')
+    
     return render(request,'customers/register.html')
 
 def profile(request):
     print(request.path)
+    CartO=Cart.objects.filter(user_id = request.user.id)
+    order_no=len(CartO)
     orders=Orders.objects.filter(user_id = request.user.id)
     total=0
     for order in orders:
         total += order.product.price
-    return render(request,'customers/profile.html',{'orders':orders,'total':total})
+    return render(request,'customers/profile.html',{'orders':orders,'total':total,"no":order_no})
 
 def add_product(request):
     if request.method == 'POST':
@@ -82,7 +87,10 @@ def add_product(request):
         except Exception as e:
             print(e)
             return render(request,'customers/product.html')     
-    return render(request,'customers/product.html')
+    orders=Cart.objects.filter(user_id = request.user.id)
+    order_no=len(orders)
+    context={"no":order_no}    
+    return render(request,'customers/product.html',context)
 
 def addtocart(request):
     if request.method=="POST":
@@ -95,9 +103,11 @@ def addtocart(request):
 def cart(request):
     orders=Cart.objects.filter(user_id = request.user.id)
     total=0
+    order_no=0
     for order in orders:
         total += order.product.price
-    return render(request,"customers/cart.html",{"orders":orders,"total":total,"tax":total/10})    
+        order_no+=1
+    return render(request,"customers/cart.html",{"orders":orders,"total":total,"tax":total/10,"no":order_no})    
 
 def Logout(request):
     logout(request)

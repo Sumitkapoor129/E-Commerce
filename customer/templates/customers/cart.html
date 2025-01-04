@@ -6,7 +6,7 @@
     <title>Shopping Cart</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
-    {%include "customers/navbar.html"%}
+    {%include "customers/navbar.html" with ON=no%}
 
     <main style="max-width: 1200px; margin: 2rem auto; padding: 0 1rem;">
         <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
@@ -32,7 +32,7 @@
                     </div>
                     <div style="text-align: right;">
                         <p style="margin: 0; font-weight: bold; color: #333;">${{order.product.price}}</p>
-                        <button style="color: #ff4444; background: none; border: none; cursor: pointer; margin-top: 0.5rem;">Remove</button>
+                        <button style="color: #ff4444; background: none; border: none; cursor: pointer; margin-top: 0.5rem;" onclick="" id="{{order.id}}">Remove</button>
                     </div>
                 </div>
 
