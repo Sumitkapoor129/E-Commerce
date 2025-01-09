@@ -33,6 +33,9 @@ def loginuser(request):
             messages.error(request, "Invalid username or password")
     return render(request,'customers/login.html')
     
+def Logout(request):
+    logout(request)
+    return redirect("customer:Home")    
     
 def register(request):
     if request.method == 'POST':
@@ -109,6 +112,11 @@ def cart(request):
         order_no+=1
     return render(request,"customers/cart.html",{"orders":orders,"total":total,"tax":total/10,"no":order_no})    
 
-def Logout(request):
-    logout(request)
-    return redirect("customer:Home")
+def checkout(request):
+    orders=Cart.objects.filter(user_id = request.user.id)
+    total=0
+    order_no=0
+    for order in orders:
+        total += order.product.price
+        order_no+=1
+    return render(request,"customers/checkout.html",{"orders":orders,"total":total,"tax":total/10,"no":order_no})

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <style>
+        .payment-section {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .payment-section.active {
+            max-height: 300px;
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+    {%include "customers/navbar.html" with ON=no%}
+
+    <main style="max-width: 1200px; margin: 2rem auto; padding: 0 1rem;">
+        <div style="display: grid; grid-template-columns: 3fr 2fr; gap: 2rem;">
+            <!-- Checkout Form Section -->
+            <section style="background-color: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h2 style="margin-top: 0; color: #333;">Checkout Information</h2>
+                
+                <form method="POST"  style="display: grid; gap: 1.5rem;">
+                    {% csrf_token %}
+                    
+                    <!-- Shipping Information -->
+                    <div>
+                        <h3 style="color: #333; margin-bottom: 1rem;">Shipping Address</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem;">First Name</label>
+                                <input type="text" name="first_name" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem;">Last Name</label>
+                                <input type="text" name="last_name" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem;">Street Address</label>
+                            <input type="text" name="address" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem;">City</label>
+                                <input type="text" name="city" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem;">State</label>
+                                <input type="text" name="state" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem;">ZIP Code</label>
+                                <input type="text" name="zipcode" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method Selection -->
+                    <div>
+                        <h3 style="color: #333; margin-bottom: 1rem;">Payment Method</h3>
+                        <div style="display: flex; gap: 2rem; margin-bottom: 1rem;">
+                            <div>
+                                <input type="radio" id="card" name="payment_method" value="card" checked onchange="togglePaymentSection(this)">
+                                <label for="card" style="margin-left: 0.5rem;">Credit/Debit Card</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="cod" name="payment_method" value="cod" onchange="togglePaymentSection(this)">
+                                <label for="cod" style="margin-left: 0.5rem;">Cash on Delivery</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Information (Card) -->
+                    <div id="cardPaymentSection" class="payment-section active">
+                        <h3 style="color: #333; margin-bottom: 1rem;">Card Information</h3>
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem;">Card Number</label>
+                            <input type="text" name="card_number" id="cardNumber" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem;">Expiration Month</label>
+                                <input type="text" name="exp_month" id="expMonth" placeholder="MM" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem;">Expiration Year</label>
+                                <input type="text" name="exp_year" id="expYear" placeholder="YYYY" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem;">CVV</label>
+                                <input type="text" name="cvv" id="cvv" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" style="width: 100%; padding: 1rem; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; margin-top: 1rem;">Place Order</button>
+                </form>
+            </section>
+
+            <!-- Order Summary Section -->
+            <section style="background-color: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); height: fit-content;">
+                <h2 style="margin-top: 0; color: #333;">Order Summary</h2>
+                
+                <!-- Order Items -->
+                <div style="margin-bottom: 1.5rem;">
+                    {% for order in orders %}
+                    <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <img src="{{order.product.image.url}}" alt="{{order.product.name}}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                            <div>
+                                <p style="margin: 0; font-weight: bold;">{{order.product.name}}</p>
+                                <p style="margin: 0; color: #666;">Qty: 1</p>
+                            </div>
+                        </div>
+                        <p style="margin: 0; font-weight: bold;">${{order.product.price}}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Cost Breakdown -->
+                <div style="margin: 1.5rem 0; border-bottom: 1px solid #eee;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                        <span>Subtotal</span>
+                        <span>${{total}}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                        <span>Shipping</span>
+                        <span>$0.00</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                        <span>Tax</span>
+                        <span>${{tax}}</span>
+                    </div>
+                </div>
+
+                <!-- Total -->
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                    <span style="font-weight: bold;">Total</span>
+                    <span style="font-weight: bold;">${{total | add:tax}}</span>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer style="background-color: #333; color: white; padding: 1rem; text-align: center; margin-top: 2rem;">
+        <p style="margin: 0;">© 2024 Your E-commerce Store. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function togglePaymentSection(radio) {
+            const cardSection = document.getElementById('cardPaymentSection');
+            const cardInputs = cardSection.querySelectorAll('input');
+            
+            if (radio.value === 'cod') {
+                cardSection.classList.remove('active');
+                // Remove required attribute and clear values when COD is selected
+                cardInputs.forEach(input => {
+                    input.removeAttribute('required');
+                    input.value = '';
+                });
+            } else {
+                cardSection.classList.add('active');
+                // Add required attribute back when card payment is selected
+                cardInputs.forEach(input => {
+                    input.setAttribute('required', '');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
