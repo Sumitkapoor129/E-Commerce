@@ -32,7 +32,8 @@
                     </div>
                     <div style="text-align: right;">
                         <p style="margin: 0; font-weight: bold; color: #333;">${{order.product.price}}</p>
-                        <button style="color: #ff4444; background: none; border: none; cursor: pointer; margin-top: 0.5rem;" onclick="" id="{{order.id}}">Remove</button>
+                        <a href="{% url 'customer:remove'  order.id %}">
+                        <button style="color: #ff4444; background: none; border: none; cursor: pointer; margin-top: 0.5rem;" onclick="">Remove</button></a>
                     </div>
                 </div>
 

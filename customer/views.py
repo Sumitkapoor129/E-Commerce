@@ -120,3 +120,8 @@ def checkout(request):
         total += order.product.price
         order_no+=1
     return render(request,"customers/checkout.html",{"orders":orders,"total":total,"tax":total/10,"no":order_no})
+
+def remove_from_cart(request,id):
+    Cart.objects.filter(id=id).delete()
+    return redirect("customer:cart")
+    
