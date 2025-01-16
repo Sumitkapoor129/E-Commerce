@@ -4,118 +4,206 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile Page</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
   <style>
-    /* Global Styles */
+    :root {
+      --primary-color: #0039b6;
+      --secondary-color: #f8f9fa;
+      --accent-color: #e3f2fd;
+      --text-color: #2c3e50;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
+      background-color: #f5f7fa;
+      color: var(--text-color);
+      line-height: 1.6;
     }
-    /* Profile Section Styles */
+
     .profile-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 30px 0;
+      padding: 3rem 2rem;
+      background: linear-gradient(135deg, var(--accent-color) 0%, white 100%);
+      margin-bottom: 2rem;
     }
 
     .profile-picture {
-      width: 150px;
-      height: 150px;
-      border-radius: 55%;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
       overflow: hidden;
-      margin-bottom: 20px;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+      border: 4px solid white;
+      transition: transform 0.3s ease;
+      animation: fadeIn 1s ease-out;
+    }
+
+    .profile-picture:hover {
+      transform: scale(1.05);
     }
 
     .profile-picture img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .profile-info {
+      text-align: center;
+      animation: slideUp 0.5s ease-out;
     }
 
     .profile-info h2 {
-      margin: 110 0 0px 10;
+      margin: 0;
+      font-size: 2.2rem;
+      color: var(--primary-color);
     }
 
     .profile-info p {
-      margin: 5px 0;
+      margin: 0.5rem 0;
+      color: #666;
     }
 
-    /* Order Section Styles */
+    .logout-link {
+      margin-top: 1rem;
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .logout-link:hover {
+      color: #002a87;
+    }
+
     .order-container {
-      background-color: #f2f2f2;
-      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      animation: fadeIn 0.8s ease-out;
     }
 
     .order-container h2 {
-      margin-top: 0;
-    }
-
-    .order-list {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    .order-list li {
-      margin-bottom: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .order-details {
-      margin-bottom: 10px;
-    }
-
-    .order-status {
-      font-size: 0.8em;
-      color: #888;
-    }
-
-    .track-order-button {
-      background-color: #0039b6;
-      color: #ffffff;
-      border: none;
-      padding: 8px 16px;
-      margin-top: 20px;
-      text-decoration: none;
-      cursor: pointer;
-      font-size: 0.9em;
+      color: var(--primary-color);
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
     }
 
     .order-products {
       display: grid;
-      grid-template-columns: repeat(5, 3fr);
-      grid-gap: 20px;
-      width: 100%;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 2rem;
+      padding: 1rem;
     }
 
     .order-product {
-      background-color: #ffffff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      text-align: center;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    .order-product:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
 
     .order-product img {
-      width: 50%;
-      max-height: 100px;
-      object-fit:contain;
-      margin-bottom: 10px;
+      width: 80%;
+      height: 150px;
+      object-fit: contain;
+      margin-bottom: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .order-product:hover img {
+      transform: scale(1.05);
     }
 
     .order-product h3 {
-      margin: 0 0 10px 0;
+      margin: 0.5rem 0;
+      color: var(--text-color);
+      font-size: 1.2rem;
     }
 
     .order-product p {
-      margin: 5px 0;
+      color: #666;
+      margin: 0.5rem 0;
+    }
+
+    .track-order-button {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      margin-top: 1rem;
+    }
+
+    .track-order-button:hover {
+      background-color: #002a87;
+      transform: translateY(-2px);
+    }
+
+    .no-orders {
+      text-align: center;
+      padding: 2rem;
+      color: #666;
+      font-size: 1.2rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .profile-container {
+        padding: 2rem 1rem;
+      }
+      
+      .profile-picture {
+        width: 150px;
+        height: 150px;
+      }
+
+      .order-products {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 1rem;
+      }
     }
   </style>
 </head>
 <body>
-  <header>{% include 'customers/navbar.html' with ON=no %}
-  </header>
+  <header>{% include 'customers/navbar.html' with ON=no %}</header>
 
   <main>
     <div class="profile-container">
@@ -123,37 +211,30 @@
         <img src="{{request.user.profile_pic.url}}" alt="Profile Picture">
       </div>
       <div class="profile-info">
-        <h2>{{request.user.username | upper}}<p>{{request.user.email }}</p>
+        <h2>{{request.user.username | upper}}</h2>
+        <p>{{request.user.email }}</p>
         <p>Member since: {{ request.user.date_joined|date:"F j, Y" }}</p>
-        <div style=" margin-top: 2%; color: rgb(0, 54, 202); font-size: 19px;"><a href="{%url 'customer:logout' %}">Logout</a></div>
-      </div></h2>
+        <a href="{% url 'customer:logout' %}" class="logout-link">Logout</a>
+      </div>
     </div>
 
     <div class="order-container">
       <h2>My Orders</h2>
-
-          <div class="order-details">
-           
+      <div class="order-products">
+        {% for order in orders %}
+          <div class="order-product">
+            <img src="{{order.product.image.url}}" alt="Product Image">
+            <h3>Product 4</h3>
+            <p>Description of Product 4</p>
+            <a href="#" class="track-order-button">Track Order</a>
           </div>
-          <div class="order-products">
-          {%for order in orders %}
-      
-          
-            <div class="order-product">
-              <img src="{{order.product.image.url}}" alt="Product 4">
-              <h3>Product 4</h3>
-              <p>Description of Product 4</p><br><a href="#" class="track-order-button">Track Order</a>
-            </div>
-            
-          
-                 {%endfor%}
-                 <div class="order-product">
-                     
-                       {%if not orders  %}
-                        <h3>You have not Ordered anything Yet</h3>
-                      {%endif%}
-                  </div>
-        </div>
+        {% endfor %}
+        {% if not orders %}
+          <div class="no-orders">
+            <h3>You have not Ordered anything Yet</h3>
+          </div>
+        {% endif %}
+      </div>
     </div>
   </main>
 </body>
