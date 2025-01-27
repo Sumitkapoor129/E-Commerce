@@ -102,8 +102,8 @@
     .order-products {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 2rem;
-      padding: 1rem;
+      gap: 3rem;
+      padding: 2rem;
     }
 
     .order-product {
@@ -125,11 +125,12 @@
       height: 150px;
       object-fit: contain;
       margin-bottom: 1rem;
+      margin-left: 20px;
       transition: transform 0.3s ease;
     }
 
     .order-product:hover img {
-      transform: scale(1.05);
+      transform: scale(1.15);
     }
 
     .order-product h3 {
@@ -200,6 +201,12 @@
         gap: 1rem;
       }
     }
+    .desc {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 200px; /* Adjust based on your layout */
+}
   </style>
 </head>
 <body>
@@ -230,6 +237,24 @@
           </div>
         {% endfor %}
         {% if not orders %}
+          <div class="no-orders">
+            <h3>You have not Ordered anything Yet</h3>
+          </div>
+        {% endif %}
+      </div>
+    </div><br>
+    <div class="order-container">
+      <h2>My Products</h2>
+      <div class="order-products">
+        {% for order in products %}
+          <div class="order-product">
+            <img src="{{order.image.url}}" alt="Product Image">
+            <h3>{{order.name}}</h3>
+            <p class="desc">{{order.description  }}</p>
+            <a href="#" class="track-order-button" style="background-color: red;">Delete</a>
+          </div>
+        {% endfor %}
+        {% if not products %}
           <div class="no-orders">
             <h3>You have not Ordered anything Yet</h3>
           </div>

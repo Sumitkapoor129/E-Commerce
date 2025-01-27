@@ -71,9 +71,10 @@ def profile(request):
     order_no=len(CartO)
     orders=Orders.objects.filter(user_id = request.user.id)
     total=0
+    Myproducts=Product.objects.filter(owner = request.user)
     for order in orders:
         total += order.product.price
-    return render(request,'customers/profile.html',{'orders':orders,'total':total,"no":order_no})
+    return render(request,'customers/profile.html',{'orders':orders,'total':total,"no":order_no,"products":Myproducts})
 
 def add_product(request):
     if request.method == 'POST':
